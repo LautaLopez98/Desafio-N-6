@@ -44,12 +44,3 @@ router.post("/:cid/product/:pid", async (req, res) => {
         } catch (error) {
             res.status(500).json({ error: error.message });}
 });
-
-// const { cid, pid } = req.params;
-// try {
-//     const cart = await cartManager.addProductToCart(cid, pid, quantity);
-//     res.status(200).json(cart);
-// } catch (error) {
-//     res.status(500).json({ error: error.message });
-// }
-// });

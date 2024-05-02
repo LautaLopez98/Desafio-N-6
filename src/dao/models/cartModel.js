@@ -1,4 +1,5 @@
-import {Schema, mongoose, model} from "mongoose"
+import {Schema} from "mongoose"
+import mongoose from "mongoose"
 
 const cartCollection="Cart"
 const cartEsquema=new mongoose.Schema({
@@ -13,10 +14,9 @@ const cartEsquema=new mongoose.Schema({
                 type: Number,
                 required: true,
             },
-        },
-        {
             timestamps: true,
-        }
+        },
+
     ]
 })
 
