@@ -12,21 +12,18 @@ class CartManagerMONGO {
 
     addToCart = async ( cid, pid ) => {
         let cart = await cartModel.findOne({_id: cid})
-        let productFound = cart.products.findIndex(product => product._id == pid)
-        if (productFound === -1) {
+        let productFound = cart.products.find(product => {
+            return product.id.toString() === pid;
+        });
+        if (productFound) {
+            productFound.quantity++
+        } else {
             cart.products.push({
                 id:pid,
                 quantity: 1
             })
-            let resp = await cartModel.findByIdAndUpdate({_id: cid}, cart)
-
-            return resp
         }
-
-        cart.products[productFound].quantity += 1
-        let resp = await cartModel.findByIdAndUpdate({_id: cid}, cart)
-
-        return resp
+        await cart.save();
     }
 }
 
