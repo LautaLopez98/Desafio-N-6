@@ -8,7 +8,6 @@ import __dirname from '../utils.js';
 import path from "path";
 import { errorHandler } from './middlewares/errorHandler.js';
 import mongoose from 'mongoose';
-import ProductManagerMONGO from './dao/productManagerMONGO.js';
 import { messagesModel } from './dao/models/messagesModel.js';
 import { productsModel } from './dao/models/productModel.js';
 

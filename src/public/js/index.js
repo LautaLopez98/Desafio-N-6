@@ -49,7 +49,5 @@ form.addEventListener('submit', (event) => {
     
     form.reset()
 })
-        // Escuchar evento 'productDeleted' desde el servidor
-        
 
 console.log("Cliente conectado")

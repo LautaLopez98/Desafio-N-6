@@ -7,8 +7,50 @@ class ProductManagerMONGO {
         return await productsModel.create(product);
     }
 
-    async getProducts() {
-        return await productsModel.find().lean();
+    async getProducts(limit = 10, page = 1, sort = null, query = {}) {
+        const options = {
+            limit,
+            page,
+            lean: true
+        };
+
+        if (sort) {
+            options.sort = { price: sort === "asc" ? 1 : -1 };
+        }
+
+        let filter = { status: true };
+
+        if (query.category) {
+            filter.category = query.category;
+        }
+        if (query.availability) {
+            filter.availability = query.availability;
+        }
+
+        const result = await productsModel.paginate(filter, options);
+
+        const totalPages = result.totalPages;
+        const currentPage = result.page;
+        const hasPrevPage = result.hasPrevPage;
+        const hasNextPage = result.hasNextPage;
+        const prevPage = result.prevPage;
+        const nextPage = result.nextPage;
+
+        const prevLink = hasPrevPage ? `/api/products?page=${prevPage}&limit=${limit}&sort=${sort}` : null;
+        const nextLink = hasNextPage ? `/api/products?page=${nextPage}&limit=${limit}&sort=${sort}` : null;
+
+        return {
+            status: "success",
+            payload: result.docs,
+            totalPages,
+            prevPage,
+            nextPage,
+            page: currentPage,
+            hasPrevPage,
+            hasNextPage,
+            prevLink,
+            nextLink
+        };
     }
 
     async getProductById(filtro={}) {

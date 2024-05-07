@@ -11,7 +11,8 @@ const productManager = new ProductManagerMONGO();
 
 router.get("/", async (req, res) => {
     try {
-        const products = await productManager.getProducts(); 
+        const { page, limit, sort, query } = req.query;
+        const products = await productManager.getProducts(limit, page, sort, query);
         res.json(products);
     } catch (error) {
         console.error("Error al obtener los productos", error);
