@@ -27,9 +27,9 @@ app.set('view engine', 'handlebars');
 app.set('views', views);
 
 
+app.use("/", vistasRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/carts", cartRoutes);
-app.use("/", vistasRoutes);
 app.use(errorHandler)
 
 let usuarios=[]

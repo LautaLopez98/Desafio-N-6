@@ -1,5 +1,6 @@
 <h1>Products</h1>
     <hr>
+    <input type="text" value="{{cart._id}}" hidden id="cart">
     <div class="container">
         {{#each productos}}
         <div class="card">
@@ -13,6 +14,7 @@
             <button onclick="comprar('{{_id}}')">Agregar a Carrito</button>
         </div>
         {{/each}}
+        <a href="/carts/{{cart._id}}">Ver Carrito</a>
     </div>
     <br>
 <a href="/products?page=1">Página 1</a>
@@ -28,5 +30,8 @@
 <a href="/products?page={{totalPages}}">Última página</a>
 <br>
 <label for="paginaActual"></label>
+
+
+<script src="/js/products.js"></script>
 
 

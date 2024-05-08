@@ -8,7 +8,7 @@ class CartManagerMONGO {
     }
 
     async getCartById(id) {
-        return await cartModel.findOne({_id:id}).lean();
+        return await cartModel.findOne({_id:id}).populate("products.product").lean();
     }
 
     async createCart(cart){
@@ -31,12 +31,18 @@ class CartManagerMONGO {
         await cart.save();
     }
 
-    async deleteCart(cid) {
-        return await cartModel.deleteOne({_id:cid});
+    async deleteProduct(cid, pid) {
+        try {
+            let searchCart = cartModel.findOne({_id:cid});
+            searchCart.products = searchCart.products.filter((p) => p.product._id != pid);
+            await searchCart.save();
+        } catch (error) {
+            return `Error: product ${pid} not found`;
+        }
     }
 
     async deleteProductInCart (cid, pid) {
-        await cartModel.findByIdAndUpdate(cid, {$pull: { products: { id: pid } }});
+        await cartModel.findByIdAndUpdate(cid, {$pull: { products: { product: pid } }});
     }
 
     async update(cid, carrito){

@@ -84,39 +84,36 @@ router.post('/:cid/product/:pid',async(req,res)=>{
         )
         
     }
-
-
-    
-
 })
 
 //funciona//
 router.delete("/:cid/product/:pid", async (req, res) => {
-    const { cid, pid } = req.params;
-
-    if (!isValidObjectId(cid) || !isValidObjectId(pid)) {
-        return res.status(400).json({ error: "Invalid cart or product ID" });
+    let { cid, pid } = req.params;
+    if (!isValidObjectId(cid)) {
+        return res.status(400).json({error: `Enter a valid MongoDB id`,});
     }
-
+    if (!cid || !pid) {
+        return res.status(300).json({ error: "Check unfilled fields" });
+    }
     try {
-        await cartManager.deleteProductInCart(cid, pid);
-        res.json({ message: "Product deleted from cart" });
+        await cartManager.deleteProduct(cid, pid);
+        return res.json({ payload: `Product ${pid} deleted from cart ${cid}` });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        return res.json({ error: error.message });
     }
-})
+});
 
 //no funciona//
 router.put("/:cid", async (req, res) => {
     const { cid } = req.params;
-    const { products } = req.body;
+    const { quantity } = req.body;
 
     if (!isValidObjectId(cid)) {
         return res.status(400).json({ error: "Invalid cart ID" });
     }
 
     try {
-        const updatedCart = await cartManager.updateCart(cid, products);
+        const updatedCart = await cartManager.updateProductQuantity(cid, quantity);
         res.json(updatedCart);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -135,6 +132,7 @@ router.put("/:cid/product/:pid", async (req, res) => {
     try {
         const updatedCart = await cartManager.updateProductQuantity(cid, pid, quantity);
         res.json(updatedCart);
+        console.log(updatedCart);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

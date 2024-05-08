@@ -1,7 +1,7 @@
 import {Schema} from "mongoose"
 import mongoose from "mongoose"
 
-const cartCollection="carts"
+const cartCollection="cart"
 const cartEsquema=new mongoose.Schema(
     {
         products:{

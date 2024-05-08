@@ -45,11 +45,15 @@ router.get('/products', async (req, res) => {
     }
 });
 
-
-router.get("/:cid", async(req, res)=>{
-    let {cid}=req.params
-    let cart=await cartManager.getCartById({_id:cid})
-
-    res.setHeader('Content-Type','text/html');
-    return res.status(200).render("carts", cart);
-})
+router.get('/carts/:cid', async (req, res) => {
+    const cid = req.params.cid;
+    try {
+        const cart = await cartManager.getCartById(cid);
+        if (!cart) {
+            return res.status(404).send('Carrito no encontrado');
+        }
+        res.render('carts', { cart });
+    } catch (error) {
+        res.status(500).send('Error al obtener el carrito');
+    }
+});
