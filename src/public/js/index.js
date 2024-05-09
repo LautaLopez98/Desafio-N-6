@@ -11,12 +11,11 @@ socket.on('products', productos =>{
         card.innerHTML = `
             <h3>${p.title}</h3>
             <p>${p.description}</p>
-            <span>Precio: $${p.price}</span>
-            <span>Código: ${p.code}</span>
-            <span>Stock: ${p.stock}</span>
-            <span>Categoría: ${p.category}</span>
-            <span>Estado: ${p.status}</span>
-            <img src="/uploads/${p.thumbnail}" alt="Thumbnail">
+            <p>Precio: $${p.price}</p>
+            <p>Código: ${p.code}</p>
+            <p>Stock: ${p.stock}</p>
+            <p>Categoría: ${p.category}</p>
+            <p>Estado: ${p.status}</p>
         `;
         
         container.appendChild(card);
@@ -33,7 +32,6 @@ form.addEventListener('submit', (event) => {
     const codigo = document.getElementById('codigo').value;
     const stock = document.getElementById('stock').value;
     const categoria = document.getElementById('categoria').value;
-    const thumbnail = document.getElementById('thumbnail').value;
 
     const producto = {
         title: titulo,
@@ -42,7 +40,6 @@ form.addEventListener('submit', (event) => {
         code: codigo,
         stock: stock,
         category: categoria,
-        thumbnail: thumbnail
     };
 
     socket.emit('addProduct', producto);

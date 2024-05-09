@@ -22,13 +22,13 @@ router.get('/chats',(req,res)=>{
 
 router.get('/products', async (req, res) => {
     try {
-        const { page, limit, sort, category, availability } = req.query;
+        const { page, limit, sort, category, stock } = req.query;
         const pageNumber = parseInt(page) || 1;
         const result = await productManager.getProducts(
             parseInt(limit) || 10, 
             pageNumber,
             sort,
-            { category, availability }
+            { category, stock }
         );
         res.render("products", {
             productos: result.payload,

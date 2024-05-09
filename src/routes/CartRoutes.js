@@ -127,7 +127,6 @@ router.put("/:cid/products/:pid", async (req, res) => {
 router.delete("/:cid", async (req, res) => {
     const { cid } = req.params;
     try {
-        // Elimina todos los productos del carrito
         const result = await cartManager.deleteProducts(cid);
         res.json({ message: "Todos los productos eliminados del carrito", result });
     } catch (error) {

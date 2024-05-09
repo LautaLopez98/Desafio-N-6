@@ -1,16 +1,19 @@
+<h1>Detalle del Carrito</h1>
 <header>
     <nav>
-        <h1>Detalle del Carrito</h1>
-        <ul>
-        <li>
-            <a href="/products">Products</a>
-        </li>
-        <li>
-            <a href="/realTimeProducts">Real Time Products</a>
-        </li>
-        <li>
-            <a href="/">Home</a>
-        </li>
+        <ul class="nav">
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/products">Products</a>
+            </li>
+            <li>
+                <a href="/realTimeProducts">Real Time Products</a>
+            </li>
+            <li>
+                <a href="/chats">Chat</a>
+            </li>
         </ul>
     </nav>
     <hr />
@@ -21,27 +24,13 @@
             <ul>
                 {{#each cart.products}}
                 <div class="card">
-                    <li>
                         <p>ID del producto: {{this.product._id}}</p>
-                    </li>
-                    <li>
                         <p>Título: {{this.product.title}}</p>
-                    </li>
-                    <li>
                         <p>Descripción: {{this.product.description}}</p>
-                    </li>
-                    <li>
                         <p>Precio: ${{this.product.price}}</p>
-                    </li>
-                    <li>
                         <p>Stock: {{this.product.stock}}</p>
-                    </li>
-                    <li>
                         <p>Categoría: {{this.product.category}}</p>
-                    </li>
-                    <li>
                         <p>Cantidad: {{this.quantity}}</p>
-                    </li>
                 </div>
                 {{/each}}
             </ul>

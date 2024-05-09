@@ -11,7 +11,8 @@ const productManager = new ProductManagerMONGO();
 
 router.get("/", async (req, res) => {
     try {
-        const { page, limit, sort, query } = req.query;
+        const { page, limit, sort, category, stock } = req.query;
+        const query = { category, stock };
         const products = await productManager.getProducts(limit, page, sort, query);
         res.json(products);
     } catch (error) {
@@ -42,7 +43,7 @@ router.post("/", upload.single("thumbnail"), async (req, res)=> {
         let {title, description, price, code, stock, category, status} = req.body;
         let thumbnail=undefined
         if(req.file){
-            thumbnail=req.file
+            thumbnail=req.file.filename
         }
         if(!title || !description || !price || !code || !stock || !category){
             res.setHeader('Content-Type','application/json');

@@ -23,8 +23,8 @@ class ProductManagerMONGO {
         if (query.category) {
             filter.category = query.category;
         }
-        if (query.availability) {
-            filter.availability = query.availability;
+        if (query.stock) {
+            filter.stock = { $gt: 0 };
         }
 
         const result = await productsModel.paginate(filter, options);
@@ -36,8 +36,8 @@ class ProductManagerMONGO {
         const prevPage = result.prevPage;
         const nextPage = result.nextPage;
 
-        const prevLink = hasPrevPage ? `/api/products?page=${prevPage}&limit=${limit}&sort=${sort}` : null;
-        const nextLink = hasNextPage ? `/api/products?page=${nextPage}&limit=${limit}&sort=${sort}` : null;
+        const prevLink = hasPrevPage ? `/api/products?page=${prevPage}&limit=${limit}` : null;
+        const nextLink = hasNextPage ? `/api/products?page=${nextPage}&limit=${limit}` : null;
 
         return {
             status: "success",
