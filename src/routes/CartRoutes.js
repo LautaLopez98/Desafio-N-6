@@ -86,73 +86,52 @@ router.post('/:cid/product/:pid',async(req,res)=>{
     }
 })
 
-//funciona//
-router.delete("/:cid/product/:pid", async (req, res) => {
-    let { cid, pid } = req.params;
-    if (!isValidObjectId(cid)) {
-        return res.status(400).json({error: `Enter a valid MongoDB id`,});
-    }
-    if (!cid || !pid) {
-        return res.status(300).json({ error: "Check unfilled fields" });
-    }
+router.delete("/:cid/products/:pid", async (req, res) => {
+    const { cid, pid } = req.params;
     try {
-        await cartManager.deleteProduct(cid, pid);
-        return res.json({ payload: `Product ${pid} deleted from cart ${cid}` });
+        const result = await cartManager.deleteProductInCart(cid, pid);
+        res.json({ message: "Producto eliminado del carrito", result });
     } catch (error) {
-        return res.json({ error: error.message });
+        console.error("Error al eliminar el producto del carrito:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 
-//no funciona//
+
 router.put("/:cid", async (req, res) => {
     const { cid } = req.params;
-    const { quantity } = req.body;
-
-    if (!isValidObjectId(cid)) {
-        return res.status(400).json({ error: "Invalid cart ID" });
-    }
-
+    const { products } = req.body;
     try {
-        const updatedCart = await cartManager.updateProductQuantity(cid, quantity);
-        res.json(updatedCart);
+        const result = await cartManager.update(cid, { products });
+        res.json({ message: "Carrito actualizado", result });
     } catch (error) {
+        console.error("Error al actualizar el carrito:", error);
         res.status(500).json({ error: error.message });
     }
-})
+});
 
-//no funciona//
-router.put("/:cid/product/:pid", async (req, res) => {
+
+router.put("/:cid/products/:pid", async (req, res) => {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
-
-    if (!isValidObjectId(cid) || !isValidObjectId(pid)) {
-        return res.status(400).json({ error: "Invalid cart or product ID" });
-    }
-
     try {
-        const updatedCart = await cartManager.updateProductQuantity(cid, pid, quantity);
-        res.json(updatedCart);
-        console.log(updatedCart);
+        const result = await cartManager.updateProductQuantity(cid, pid, quantity);
+        res.json({ message: "Cantidad de producto actualizada en el carrito", result });
     } catch (error) {
+        console.error("Error al actualizar la cantidad del producto en el carrito:", error);
         res.status(500).json({ error: error.message });
     }
-})
+});
 
-//funciona//
+
 router.delete("/:cid", async (req, res) => {
-    let { cid } = req.params;
-    if (!isValidObjectId(cid)) {
-        return res.status(400).json({error: `Enter a valid MongoDB id`});
-    }
+    const { cid } = req.params;
     try {
-    let cart = await cartManager.deleteCart(cid);
-        if (cart.deletedCount > 0) {
-        return res.json({ payload: `Carrito con ${cid} eliminado` });
-        } else {
-        return res.status(404).json({ error: `El carrito con ${cid} no existe` });
-        }
+        // Elimina todos los productos del carrito
+        const result = await cartManager.deleteProducts(cid);
+        res.json({ message: "Todos los productos eliminados del carrito", result });
     } catch (error) {
-        res.status(300).json({ error: `Error al eliminar el carrito con id ${cid}` });
-        console.log(error);
+        console.error("Error al eliminar todos los productos del carrito:", error);
+        res.status(500).json({ error: error.message });
     }
-})
+});

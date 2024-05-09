@@ -1,22 +1,38 @@
-<h1>Products</h1>
-    <hr>
-    <input type="text" value="{{cart._id}}" hidden id="cart">
-    <div class="container">
-        {{#each productos}}
-        <div class="card">
-            <h3>{{title}}</h3>
-            <p>{{description}}</p>
-            <span>${{price}}</span>
-            <span>Code: {{code}}</span>
-            <span>Stock: {{stock}}</span>
-            <span>Category: {{category}}</span>
-            <span>Status: {{status}}</span>
-            <button onclick="comprar('{{_id}}')">Agregar a Carrito</button>
-        </div>
-        {{/each}}
-        <a href="/carts/{{cart._id}}">Ver Carrito</a>
+<header>
+    <nav>
+        <h1>Productos</h1>
+        <ul>
+        <li>
+            <a href="/">Home</a>
+        </li>
+        <li>
+            <a href="/realTimeProducts">Real Time Products</a>
+        </li>
+        <li>
+            <a href="/carts/663abad4c100e248d80f3373">Carrito</a>
+        </li>
+        </ul>
+    </nav>
+    <hr />
+</header>
+<hr>
+<input type="text" value="{{cart._id}}" hidden id="cart">
+<div class="container">
+    
+    {{#each productos}}
+    <div class="card">
+        <h3>{{title}}</h3>
+        <p>{{description}}</p>
+        <span>${{price}}</span>
+        <span>Code: {{code}}</span>
+        <span>Stock: {{stock}}</span>
+        <span>Category: {{category}}</span>
+        <span>Status: {{status}}</span>
+        <button onclick="comprar('{{_id}}')">Agregar a Carrito</button>
     </div>
-    <br>
+    {{/each}}
+</div>
+<br>
 <a href="/products?page=1">Página 1</a>
 
 {{#if hasPrevPage}}
